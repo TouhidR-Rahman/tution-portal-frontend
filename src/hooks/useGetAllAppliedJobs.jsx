@@ -1,6 +1,6 @@
 import { setAllAppliedTutorOpportunities } from "@/redux/jobSlice";
 import { APPLICATION_API_ENDPOINT } from "@/utils/data";
-import axios from "axios";
+import apiClient from "@/utils/axios";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
@@ -11,15 +11,13 @@ const useGetAppliedJobs = () => {
   const [refreshTrigger, setRefreshTrigger] = useState(0);
 
   const refetch = () => {
-    setRefreshTrigger(prev => prev + 1);
+    setRefreshTrigger((prev) => prev + 1);
   };
 
   useEffect(() => {
     const fetchAppliedJobs = async () => {
       try {
-        const res = await axios.get(`${APPLICATION_API_ENDPOINT}/get`, {
-          withCredentials: true,
-        });
+        const res = await apiClient.get(`${APPLICATION_API_ENDPOINT}/get`);
         console.log("Fetching applied jobs - API Response:", res.data);
         if (res.data.success) {
           console.log("Setting applications in Redux:", res.data.application);

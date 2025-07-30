@@ -1,6 +1,6 @@
 import { setAllTutorOpportunities } from "@/redux/jobSlice";
 import { TUTOR_OPPORTUNITY_API_ENDPOINT } from "@/utils/data";
-import axios from "axios";
+import apiClient from "@/utils/axios";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -8,7 +8,7 @@ const useGetAllTutorOpportunities = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const { searchedQuery } = useSelector(store => store.tutorOpportunities);
+  const { searchedQuery } = useSelector((store) => store.tutorOpportunities);
 
   useEffect(() => {
     const fetchTutorOpportunities = async () => {
@@ -33,9 +33,7 @@ const useGetAllTutorOpportunities = () => {
           url += `?${params.toString()}`;
         }
 
-        const res = await axios.get(url, {
-          withCredentials: true,
-        });
+        const res = await apiClient.get(url);
         if (res.data.success) {
           dispatch(setAllTutorOpportunities(res.data.tutorOpportunities));
         }

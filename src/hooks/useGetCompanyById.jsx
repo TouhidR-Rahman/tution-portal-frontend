@@ -1,18 +1,17 @@
 import { setSingleTutionCenter } from "@/redux/companyslice";
 import { TUTION_CENTER_API_ENDPOINT } from "@/utils/data";
-import axios from "axios";
+import apiClient from "@/utils/axios";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
-const useGetTutionCenterById = tutionCenterId => {
+const useGetTutionCenterById = (tutionCenterId) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchSingleTutionCenter = async () => {
       try {
-        const res = await axios.get(
-          `${TUTION_CENTER_API_ENDPOINT}/get/${tutionCenterId}`,
-          { withCredentials: true },
+        const res = await apiClient.get(
+          `${TUTION_CENTER_API_ENDPOINT}/get/${tutionCenterId}`
         );
         dispatch(setSingleTutionCenter(res.data.tutionCenter));
       } catch (error) {

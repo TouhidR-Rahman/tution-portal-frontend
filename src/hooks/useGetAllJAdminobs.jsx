@@ -1,6 +1,6 @@
 import { setAllAdminJobs } from "@/redux/jobSlice";
 import { TUTOR_OPPORTUNITY_API_ENDPOINT } from "@/utils/data";
-import axios from "axios";
+import apiClient from "@/utils/axios";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
@@ -14,11 +14,8 @@ const useGetAllAdminJobs = () => {
       setLoading(true);
       setError(null);
       try {
-        const res = await axios.get(
-          `${TUTOR_OPPORTUNITY_API_ENDPOINT}/getadminopportunities`,
-          {
-            withCredentials: true,
-          },
+        const res = await apiClient.get(
+          `${TUTOR_OPPORTUNITY_API_ENDPOINT}/getadminopportunities`
         );
         console.log("API Response:", res.data);
         if (res.data.success) {

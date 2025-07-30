@@ -11,6 +11,7 @@ import UserProfile from "./components/components_lite/UserProfile.jsx";
 import Description from "./components/components_lite/Description.jsx";
 import PendingApproval from "./components/components_lite/PendingApproval.jsx";
 import AuthDebug from "./components/components_lite/AuthDebug.jsx";
+import AuthProvider from "./components/AuthProvider.jsx";
 import Companies from "./components/admincomponent/Companies";
 import CompanyCreate from "./components/admincomponent/CompanyCreate";
 import CompanySetup from "./components/admincomponent/CompanySetup";
@@ -153,7 +154,9 @@ const appRouter = createBrowserRouter([
 function App() {
   return (
     <div>
-      <RouterProvider router={appRouter}></RouterProvider>
+      <AuthProvider>
+        <RouterProvider router={appRouter}></RouterProvider>
+      </AuthProvider>
     </div>
   );
 }
