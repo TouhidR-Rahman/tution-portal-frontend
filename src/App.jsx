@@ -10,6 +10,7 @@ import Profile from "./components/components_lite/Profile.jsx";
 import UserProfile from "./components/components_lite/UserProfile.jsx";
 import Description from "./components/components_lite/Description.jsx";
 import PendingApproval from "./components/components_lite/PendingApproval.jsx";
+import AuthDebug from "./components/components_lite/AuthDebug.jsx";
 import Companies from "./components/admincomponent/Companies";
 import CompanyCreate from "./components/admincomponent/CompanyCreate";
 import CompanySetup from "./components/admincomponent/CompanySetup";
@@ -62,6 +63,10 @@ const appRouter = createBrowserRouter([
   {
     path: "/pending-approval",
     element: <PendingApproval />,
+  },
+  {
+    path: "/auth-debug",
+    element: <AuthDebug />,
   },
   {
     path: "/superadmin/login",

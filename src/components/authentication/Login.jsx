@@ -10,6 +10,7 @@ import { toast } from "sonner";
 import { USER_API_ENDPOINT } from "@/utils/data.js";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoading, setUser } from "@/redux/authSlice";
+import { auth } from "@/utils/auth";
 
 const Login = () => {
   const [input, setInput] = useState({
@@ -19,12 +20,12 @@ const Login = () => {
   });
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { loading, user } = useSelector(store => store.auth);
-  const changeEventHandler = e => {
+  const { loading, user } = useSelector((store) => store.auth);
+  const changeEventHandler = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
   };
 
-  const submitHandler = async e => {
+  const submitHandler = async (e) => {
     e.preventDefault();
 
     try {
@@ -36,13 +37,18 @@ const Login = () => {
       if (res.data.success) {
         dispatch(setUser(res.data.user));
 
+        // Store token if provided
+        if (res.data.token) {
+          auth.setToken(res.data.token, true); // Remember token
+        }
+
         // Check user status
         if (res.data.user.status === "pending") {
           navigate("/pending-approval");
           toast.success("Login successful. Your account is pending approval.");
         } else if (res.data.user.status === "rejected") {
           toast.error(
-            "Your account has been rejected. Please contact support.",
+            "Your account has been rejected. Please contact support."
           );
         } else if (res.data.user.status === "approved") {
           navigate("/");
@@ -144,7 +150,8 @@ const Login = () => {
                     />
                     <Label
                       htmlFor="r1"
-                      className="text-sm text-gray-700 cursor-pointer">
+                      className="text-sm text-gray-700 cursor-pointer"
+                    >
                       🎓 Tutor
                     </Label>
                   </div>
@@ -159,7 +166,8 @@ const Login = () => {
                     />
                     <Label
                       htmlFor="r2"
-                      className="text-sm text-gray-700 cursor-pointer">
+                      className="text-sm text-gray-700 cursor-pointer"
+                    >
                       🏢 Recruiter
                     </Label>
                   </div>
@@ -176,7 +184,8 @@ const Login = () => {
                 ) : (
                   <button
                     type="submit"
-                    className="w-full py-4 px-6 bg-gradient-to-r from-gray-800 to-gray-900 hover:from-gray-900 hover:to-black text-white font-semibold rounded-xl transition-all duration-200 transform hover:-translate-y-0.5 shadow-lg hover:shadow-xl">
+                    className="w-full py-4 px-6 bg-gradient-to-r from-gray-800 to-gray-900 hover:from-gray-900 hover:to-black text-white font-semibold rounded-xl transition-all duration-200 transform hover:-translate-y-0.5 shadow-lg hover:shadow-xl"
+                  >
                     🚀 Sign In
                   </button>
                 )}
@@ -190,7 +199,8 @@ const Login = () => {
                 <Link to="/register">
                   <button
                     type="button"
-                    className="w-full py-3 px-6 bg-gradient-to-r from-green-500 to-emerald-500 text-white font-semibold rounded-xl hover:from-green-600 hover:to-emerald-600 transition-all duration-200 transform hover:-translate-y-0.5 shadow-lg hover:shadow-xl">
+                    className="w-full py-3 px-6 bg-gradient-to-r from-green-500 to-emerald-500 text-white font-semibold rounded-xl hover:from-green-600 hover:to-emerald-600 transition-all duration-200 transform hover:-translate-y-0.5 shadow-lg hover:shadow-xl"
+                  >
                     ✨ Create Account
                   </button>
                 </Link>
