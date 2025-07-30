@@ -11,6 +11,7 @@ import { USER_API_ENDPOINT } from "@/utils/data.js";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoading, setUser } from "@/redux/authSlice";
 import { auth } from "@/utils/auth";
+import { cookieUtils } from "@/utils/cookies";
 
 const Login = () => {
   const [input, setInput] = useState({
@@ -35,11 +36,22 @@ const Login = () => {
         withCredentials: true,
       });
       if (res.data.success) {
+        console.log("Login response:", res.data); // Debug log
         dispatch(setUser(res.data.user));
 
         // Store token if provided
         if (res.data.token) {
           auth.setToken(res.data.token, true); // Remember token
+          console.log("Token stored:", res.data.token); // Debug log
+        } else {
+          // Try to extract token from cookies as fallback
+          const cookieToken = cookieUtils.getTokenFromCookies();
+          if (cookieToken) {
+            auth.setToken(cookieToken, true);
+            console.log("Token extracted from cookies:", cookieToken); // Debug log
+          } else {
+            console.log("No token received from backend or cookies"); // Debug log
+          }
         }
 
         // Check user status

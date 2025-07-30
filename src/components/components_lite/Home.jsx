@@ -4,17 +4,18 @@ import Navbar from "./Navbar";
 import Header from "./Header";
 import LatestJobs from "./LatestJobs";
 import Footer from "./Footer";
+import AuthStatus from "./AuthStatus";
 import useGetAllTutorOpportunities from "@/hooks/useGetAllJobs";
 import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const { loading, error } = useGetAllTutorOpportunities(); // Trigger data fetch
   const jobs = useSelector(
-    state => state.tutorOpportunities.allTutorOpportunities,
+    (state) => state.tutorOpportunities.allTutorOpportunities
   ); // Access Redux state
 
   console.log("Jobs in Component:", { loading, error, jobs }); // Log to check state
-  const { user } = useSelector(store => store.auth);
+  const { user } = useSelector((store) => store.auth);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -26,6 +27,7 @@ const Home = () => {
   return (
     <div>
       <Navbar />
+      <AuthStatus />
       <Header />
       {/* <Categories /> */}
       {loading && <p>Loading jobs...</p>}

@@ -1,8 +1,18 @@
 // Authentication utilities for handling tokens
+import { cookieUtils } from "./cookies";
+
 export const auth = {
-  // Get token from storage
+  // Get token from storage or cookies
   getToken: () => {
-    return localStorage.getItem("token") || sessionStorage.getItem("token");
+    // First check localStorage and sessionStorage
+    const storageToken =
+      localStorage.getItem("token") || sessionStorage.getItem("token");
+    if (storageToken) {
+      return storageToken;
+    }
+
+    // Fallback to cookies
+    return cookieUtils.getTokenFromCookies();
   },
 
   // Set token in storage
