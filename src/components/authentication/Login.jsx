@@ -63,7 +63,12 @@ const Login = () => {
             "Your account has been rejected. Please contact support."
           );
         } else if (res.data.user.status === "approved") {
-          navigate("/");
+          // Navigate based on user role
+          if (res.data.user.role === "Recruiter") {
+            navigate("/admin/tution-centers");
+          } else {
+            navigate("/");
+          }
           toast.success(res.data.message);
         }
       }
